@@ -3,32 +3,45 @@
 <html lang="en"><head>
 		<meta charset="utf-8">
 		<title>Upload</title>
-		<link href="upload.css" type="text/css" rel="stylesheet">
+		
 	</head>
-
 	<body>
 		<div>
-		<form action="#" enctype="multipart/form-data" method="post">
-			<h1>上传图片</h1>
-			<input type="file" id="img" name="img">
-			<input type="submit" value="提交">
+
+			<input type="file" id="img" name="file">
+			<canvas id="uploadImg"></canvas>
 		
-			<img  id="preview">
 			<script>
-			    var elem = document.getElementById('img'),
-			        img = document.getElementById('preview');
-			    elem.onchange = function () {
-			    	var files = elem.files,
-			    	    reader = new FileReader();
-			    	if(files && files[0]){
-			    	    reader.onload = function (ev) {
-			    	        img.src = ev.target.result;
-			    	    }
-			    	    reader.readAsDataURL(files[0]);
-			    	}
-			    }
+				var elem = document.getElementById('img');
+					elem.onchange = function () {
+						var files = elem.files,
+							reader = new FileReader();
+						if(files && files[0]){
+							reader.readAsDataURL(files[0]);
+							reader.onload = function (ev) {
+								createCanvas(ev.target.result);
+							}
+						}
+					}
+
+				function createCanvas(src) {
+					var canvas = document.getElementById("uploadImg");
+					var cxt = canvas.getContext('2d');
+					canvas.width = 640;
+					canvas.height = 400;
+					var img = new Image();
+        			img.src = src;
+					img.onload = function() {
+						cxt.drawImage(img, 0, 0,640,400);
+						$.post('/', { "img": canvas.toDataURL().substr(22) }, function (data, status) {
+							alert(status!="success"?"process erroe":data== "yes"?"upload complete":data);
+						}, "text");
+					}
+					
+				}
 			</script>
-		</form>
+			<script type=text/javascript src="{{
+				url_for('static', filename='jquery.js') }}"></script>
 		</div>
 	
 </body></html>
