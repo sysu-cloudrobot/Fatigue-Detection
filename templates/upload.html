@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+		<meta charset="utf-8">
+		<title>Upload</title>
+		<link href="upload.css" type="text/css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div>
+		<form action="#" enctype="multipart/form-data" method="post">
+			<h1>上传图片</h1>
+			<input type="file" id="img" name="img">
+			<input type="submit" value="提交">
+		
+			<img  id="preview">
+			<script>
+			    var elem = document.getElementById('img'),
+			        img = document.getElementById('preview');
+			    elem.onchange = function () {
+			    	var files = elem.files,
+			    	    reader = new FileReader();
+			    	if(files && files[0]){
+			    	    reader.onload = function (ev) {
+			    	        img.src = ev.target.result;
+			    	    }
+			    	    reader.readAsDataURL(files[0]);
+			    	}
+			    }
+			</script>
+		</form>
+		</div>
+	
+</body></html>
