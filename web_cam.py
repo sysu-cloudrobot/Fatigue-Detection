@@ -13,17 +13,17 @@ from sensor_msgs.msg import Image
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['POST','GET'])
 def webcam():
     if request.method == 'GET':
-        return render_template('tmnt.html')
+        return render_template('upload.html')
     elif request.method == 'POST':
         image_b64 = request.form['img']
         print(type(image_b64))
         robo_talker.talker(image_b64)
 
         # 等待返回结果
-        time.sleep(3)
+        time.sleep(1)
 
         result = ''
         is_fatigue = ''
@@ -38,8 +38,9 @@ def webcam():
         if robo_talker.drive_state != None:
             result = robo_talker.drive_state
             robo_talker.drive_state = None
+        
 
-        return {'state': result, 'is_fatigue': is_fatigue, 'mar': mar, 'ear': ear}
+        return 'state: {0}, is_fatigue: {1}, mar: {2}, ear: {3}'.format(result, is_fatigue, mar, ear)
     # return render_template('tmp.html', state="result", img_path='static/ret_image.jpg')
 
 # @app.route('/upload', methods=['POST','GET'])

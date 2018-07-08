@@ -10,15 +10,19 @@ class ImgWindow:
     (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
     (mStart, mEnd) = (60, 68)
 
-    def __init__(self, args=None):
-        # self.vs = VideoStream(src=0).start()
+    def __init__(self, args=None, in_local=False):
+        if in_local:
+            self.vs = VideoStream(src=args["webcam"]).start()
+        self.in_local = in_local
         self.frame = None
+        
     
-    def read(self, file_path):
-        # self.frame = self.vs.read()
-        # self.frame = imutils.resize(self.frame, width=450)
-
-        self.frame = cv2.imread(file_path)
+    def read(self, file_path=''):
+        if self.in_local:
+            self.frame = self.vs.read()
+            self.frame = imutils.resize(self.frame, width=450)
+        else:
+            self.frame = cv2.imread(file_path)
 
         return self.frame
 

@@ -3,12 +3,12 @@
 <html lang="en"><head>
 		<meta charset="utf-8">
 		<title>Upload</title>
-		<link href="upload.css" type="text/css" rel="stylesheet">
+		<link href="static/upload.css" type="text/css" rel="stylesheet">
 		
 	</head>
 	<body>
 		<div>
-
+			<h1>上传图片</h1>
 			<input type="file" id="img" name="file">
 			<canvas id="uploadImg"></canvas>
 		
@@ -24,16 +24,15 @@
 							}
 						}
 					}
-
 				function createCanvas(src) {
 					var canvas = document.getElementById("uploadImg");
 					var cxt = canvas.getContext('2d');
-					canvas.width = 640;
+					canvas.width = 512;
 					canvas.height = 400;
 					var img = new Image();
         			img.src = src;
 					img.onload = function() {
-						cxt.drawImage(img, 0, 0,640,400);
+						cxt.drawImage(img, 0, 0,512,400);
 						$.post('/', { "img": canvas.toDataURL().substr(22) }, function (data, status) {
 							alert(status!="success"?"process erroe":data== "yes"?"upload complete":data);
 						}, "text");
