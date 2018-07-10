@@ -68,6 +68,7 @@ ros下载安装：http://www.ros.org/
 pip install -r requirements.txt
 ```  
 # 项目运行
+这里我构建了一个python的虚拟环境
 启动五个shell,分别输入以下内容　　
 ```sh
 roscore
@@ -91,5 +92,23 @@ python fatigue_server.py
 . ../../devel/setup.bash
 . ../venv/bin/activate
 python fat_detect.py
-```
+```  
+# 结果
+在浏览器里输入http://127.0.0.1:7779/　　
+![](./result.png)
 
+# 数据集下载
+训练模型所用的数据集：https://www.kaggle.com/c/state-farm-distracted-driver-detection/leaderboard
+
+# inception v3模型训练
+* 创建data文件夹，把训练集和测试集放到data文件夹下
+* 划分数据，把训练集的一部分拿出来当验证集
+* 训练模型
+
+```sh
+cd distracted_driver_detection
+sudo ./splitter.sh
+cd ..
+mkdir models
+python train_model.py  --lr 1e-5 --batch 32--epochs 5
+```
