@@ -47,8 +47,8 @@ def train(num_of_epochs, img_width=299, print_summary=False,
     if not skip_first_stage:
         print('[INFO] Start first stage')
         model.fit_generator(generator=train_generator, epochs=2,
-                            steps_per_epoch= 18304 / batch_size,
-                            validation_steps= 3328 / batch_size,
+                            steps_per_epoch= 33 / batch_size,
+                            validation_steps= 33 / batch_size,
                             validation_data=validation_generator,
                             callbacks=get_callbacks(model_type, 0.001, False),
                             initial_epoch=0)
